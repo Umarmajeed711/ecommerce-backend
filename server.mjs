@@ -67,31 +67,46 @@ app.delete('/delete-product/:id' , (req,res) => {
 
 
 
-// app.put("/edit-product/:id", (req,res) => {
-//     let productId = req.params.id
+app.put("/edit-product/:id", (req,res) => {
+    let productId = req.params.id
 
-//     let reqBody = req.body
+    let reqBody = req.body
 
-//     let isEdit =false
+    if(!reqBody.productName || !reqBody.productPrice || !reqBody.productDescription){
+        res.send("required parameters missing!")
+        return
+    }
 
-//     for(let i = 0 ; i < Products.length ; i++){
-//         if(productId == Products[i].id){
-//             Products[i].name = reqBody?.name ,
-//             Products[i].price = reqBody?.price,
-//             Products[i].price = reqBody.description
-//             isEdit = true
+    let isEdit = false
 
-//             break
-//         }
-//     }
+    for(let i = 0 ; i < Products.length ; i++){
+        if(productId == Products[i].id){
+            Products[i].id = productId
+            Products[i].productName = reqBody?.productName ,
+            Products[i].productPrice = reqBody?.productPrice,
+            Products[i].productDescription = reqBody?.productDescription
 
-//     if(isEdit){
-//         res.send(`prouduct ${productId} is Edit successfully!`)
-//     }
-//     else{
-//         res.send(`product ${productId} is not found.`)
-//     }
-// })
+            // another way to do this
+            // Products[i] = {
+            //     id: productId,
+            //     productName : reqBody?.productName,
+            //     productPrice : reqBody?.productPrice,
+            //     productDescription: reqBody?.productDescription
+            // }
+
+            isEdit = true
+
+            break
+        }
+    }
+
+    if(isEdit){
+        res.send(`product ${productId} is Edit successfully!`)
+    }
+    else{
+        res.send(`product ${productId} is not found.`)
+    }
+})
 
 
 
